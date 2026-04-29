@@ -1,0 +1,331 @@
+/* Reset básico para tirar as margens padrão do navegador */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Fundo da página e cor do texto geral */
+body {
+    background-color: #f4f7f9; /* Um cinza bem clarinho com fundo azulado */
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Estilo do cabeçalho (Header) */
+header {
+    background-color: #1a252f; /* Azul bem escuro, quase preto */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cabecalho {
+    display: flex;
+    justify-content: space-between; /* Joga a logo pra esquerda e o nav pra direita */
+    align-items: center; /* Centraliza verticalmente */
+    max-width: 1200px;
+    margin: 0 auto; /* Centraliza o cabeçalho na tela grande */
+    padding: 15px 30px;
+}
+
+/* Ajuste da logo (para não estourar o tamanho) */
+.logo {
+    height: 110px; /* Altere esse valor dependendo do tamanho real da sua logo */
+    width: auto;
+    border-radius: 4px;
+}
+
+/* Estilo da barra de navegação */
+nav {
+    display: flex;
+    gap: 20px; /* Dá um espaço legal entre os links */
+}
+
+nav a {
+    text-decoration: none;
+    color: #ecf0f1; /* Branco levemente acinzentado */
+    font-weight: 500;
+    font-size: 1.1rem;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: all 0.3s ease; /* Deixa o efeito de passar o mouse mais suave */
+}
+
+/* Efeito quando passa o mouse por cima dos links do menu */
+nav a:hover {
+    color: #3498db;
+}
+
+/* Estilo da área principal (Main) */
+main {
+    max-width: 800px;
+    width: 90%; /* Adicionado para garantir responsividade em telas menores */
+    margin: 60px auto; /* Dá um respiro da barra superior */
+    padding: 40px 30px;
+    background-color: #ffffff;
+    border-radius: 10px; /* Deixa as bordas arredondadas */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Sombra levinha tipo cartão */
+    text-align: center; /* Centraliza o texto */
+}
+
+/* Estilo do título H1 */
+.titulo {
+    color: #2c3e50; /* Azul escuro igual o cabeçalho */
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+/* Estilo do parágrafo */
+main p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #555;
+}
+
+/* Botão de Deletar (Original) */
+.deletar {
+    background-color: red;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    margin-top: 7px;
+    color: white;
+    padding: 7px;
+    transition: background-color 0.3s ease; /* Adicionada transição suave */
+}
+
+.deletar:hover {
+    background-color: darkred;
+    cursor: pointer;
+}
+
+/* =========================================
+   ESTILOS: FORMULÁRIO DE ADICIONAR POST
+   ========================================= */
+
+/* Container geral da caixa de posts */
+.caixa-dos-posts {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    /* Prepara o contador para numerar os posts da tela de visualização */
+    counter-reset: post-counter; 
+}
+
+/* Limita a largura do formulário para não ficar esticado na tela toda */
+.caixa-dos-posts form {
+    width: 100%;
+    max-width: 500px;
+    margin-top: 15px;
+}
+
+/* Estrutura interna do form (Inputs e Botão) */
+.post {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Cria um espaçamento uniforme entre os elementos */
+}
+
+/* Estilo dos campos de texto (Inputs) */
+.titulo-do-post,
+.informacoes-do-post {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #333;
+    background-color: #fcfcfc;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efeito quando o usuário clica para digitar nos inputs */
+.titulo-do-post:focus,
+.informacoes-do-post:focus {
+    border-color: #3498db; /* Azul do menu */
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3); /* Brilho azulado */
+    background-color: #ffffff;
+}
+
+/* Estilo do Botão de Adicionar */
+.botao-adicionar {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 14px 20px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    margin-top: 5px;
+}
+
+/* Efeito ao passar o mouse no botão */
+.botao-adicionar:hover {
+    background-color: #2980b9; /* Um azul um pouco mais escuro */
+}
+
+/* Efeito de clique no botão (dá uma leve afundada) */
+.botao-adicionar:active {
+    transform: scale(0.98);
+}
+
+/* =========================================
+   ESTILOS: LISTA DE EXCLUIR POSTS
+   ========================================= */
+
+/* Remove os marcadores e organiza a lista */
+main ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espaço entre os posts */
+}
+
+/* Transforma cada item da lista em um "card" horizontal */
+main ul li {
+    background-color: #fbfbfc;
+    border: 1px solid #e1e4e8;
+    border-radius: 8px;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between; /* Título na esquerda, botão na direita */
+    align-items: center; /* Centraliza tudo verticalmente */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    transition: box-shadow 0.3s ease;
+}
+
+/* Dá um destaque quando o mouse passa por cima do post */
+main ul li:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* Formatação do título dentro da lista */
+main ul li h3 {
+    font-size: 1.2rem;
+    color: #34495e;
+    margin: 0;
+    text-align: left;
+    flex-grow: 1; /* Faz o título ocupar o espaço vazio */
+    padding-right: 20px; /* Dá um respiro para o texto não encostar no botão */
+}
+
+/* Remove margens do form dentro do item da lista */
+main ul li form {
+    margin: 0;
+}
+
+/* Ajusta o botão ".deletar" original especificamente dentro dessa lista */
+main ul li .deletar {
+    margin: 0; /* Tira as margens originais para alinhar direito */
+    padding: 8px 16px;
+    font-size: 1rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* =========================================
+   ESTILOS: LISTA DE EDITAR POSTS
+   ========================================= */
+
+/* Estilo do container de cada post na tela de edição */
+.post-editar {
+    width: 100%;
+    max-width: 500px; /* Mantém a largura igual a do formulário de adicionar */
+    background-color: #fbfbfc;
+    border: 1px solid #e1e4e8;
+    border-radius: 8px;
+    padding: 15px 20px;
+    margin-bottom: 15px; /* Espaçamento entre os cards */
+    display: flex;
+    justify-content: space-between; /* Joga o título pra esquerda e o botão pra direita */
+    align-items: center; /* Centraliza verticalmente */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    transition: box-shadow 0.3s ease;
+}
+
+/* Efeito de destaque ao passar o mouse */
+.post-editar:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* Formatação do título no card de edição */
+.post-editar h3 {
+    font-size: 1.2rem;
+    color: #34495e;
+    margin: 0;
+    text-align: left;
+    flex-grow: 1; /* Puxa o espaço extra para afastar o botão */
+    padding-right: 20px;
+}
+
+/* Transforma o link de editar em um botão bonitão */
+.botao-editar {
+    background-color: #f39c12; /* Um tom de laranja/âmbar elegante para edição */
+    color: #fff;
+    text-decoration: none; /* Tira o sublinhado do link */
+    padding: 8px 16px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    display: inline-block;
+}
+
+/* Efeito hover no botão de editar */
+.botao-editar:hover {
+    background-color: #d68910; /* Laranja mais escuro */
+}
+
+/* Efeito de clique */
+.botao-editar:active {
+    transform: scale(0.98);
+}
+
+/* =========================================
+   NOVOS ESTILOS: VISUALIZAR POSTS (VIEW)
+   ========================================= */
+
+/* Foca apenas nas divs de post que não estão dentro de formulários. 
+   O sinal ">" significa "filho direto". Isso protege seu form de adicionar. */
+.caixa-dos-posts > .post {
+    background-color: #fbfbfc;
+    border: 1px solid #e1e4e8;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 25px;
+    width: 100%;
+    max-width: 650px; /* Um pouco mais largo para acomodar bem textos longos */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    position: relative; /* Necessário para posicionar o número da "marca d'água" */
+    counter-increment: post-counter; /* Adiciona +1 na contagem para cada post */
+    text-align: left; /* Tira do centro para ficar no formato de leitura de blog */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Título do post no formato leitura */
+.caixa-dos-posts > .post h3 {
+    color: #2c3e50;
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #ecf0f1; /* Linha sutil separando o título do texto */
+    padding-bottom: 10px;
+    padding-right: 40px; /* Evita que o título encoste no número do post */
+}
+
+/* Texto de conteúdo do post */
+.caixa-dos-posts > .post p {
+    color: #444;
+    font-size: 1.1rem;
+    line-height: 1.7; /* Maior espaçamento entre as linhas para facilitar a leitura */
+    text-align: justify; /* Deixa o bloco de texto bem alinhadinho e profissional */
+}

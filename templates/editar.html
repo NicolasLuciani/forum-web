@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>Editar Posts</title>
+</head>
+<body>
+    <header>
+        <div class="cabecalho">
+            <img src="/static/assets/logo_forum.png" class="logo" alt="Forum Web Logo">
+            <nav>
+                <a href="/">Home</a>
+                <a href="/view">Visualizar Posts</a>
+                <a href="/postar">Criar Posts</a>
+                <a href="/editar">Editar Posts</a>
+                <a href="/excluir">Excluir Posts</a>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <div class="caixa-dos-posts">
+
+            <h1 class="titulo">Editar Posts</h1>
+
+                {% for post in posts %}
+                    <div class="post-editar">
+                        <h3>{{ post.titulo }}</h3>
+                        <a class="botao-editar" href="/editar/{{ post.id }}">Editar</a>
+                    </div>
+                {% endfor %}
+        </div>
+    </main>
+</body>
+</html>

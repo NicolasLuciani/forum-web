@@ -2,8 +2,8 @@ import mysql.connector
 
 def connection():
     return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="forum_web"
+        host='localhost',
+        user='root',
+        password='',
+        database='forum'
     )

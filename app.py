@@ -1,121 +1,84 @@
-from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, Form, Request
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import RedirectResponse
+from model import add_post, consulta_post, editar_post, excluir_post, consulta_post_por_id
 
 app = FastAPI()
-templates = Jinja2Templates(directory="templates")
-
-context = {}
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-posts = [
-    {
-        "id": 1,
-        "titulo": "Meu primeiro post",
-        "resumo": "Resumo...",
-        "conteudo": "Conteúdo completo...",
-        "autor": "Carlos"
-    }
-]
+templates = Jinja2Templates(directory="templates")
 
-@app.get("/")
-async def home(request: Request, response_class=HTMLResponse):
 
+@app.get("/", response_class=HTMLResponse)
+async def home(request: Request):
+    posts = consulta_post()
     return templates.TemplateResponse(
         request=request,
         name="index.html",
-        context={
-            "posts": posts
-        }
-)
+        context={"posts": posts}
+    )
 
-@app.get("/create")
-def create_page(request: Request):
+@app.get("/postar", response_class=HTMLResponse)
+async def pagina_postar(request: Request):
     return templates.TemplateResponse(
         request=request,
-        name="create.html"
+        name="post.html",
+        context={}
+    )
+
+@app.get("/view", response_class=HTMLResponse)
+async def pagina_view(request: Request):
+    posts = consulta_post()
+    return templates.TemplateResponse(
+        request=request,
+        name="view.html",
+        context={"posts": posts}
     )
 
 @app.post("/add")
-async def adicionar(request: Request):
+async def add(request: Request):
     form = await request.form()
+    titulo = form.get("titulo")
+    informacoes = form.get("informacoes")
+    add_post(titulo, informacoes)
+    return RedirectResponse(url="/view", status_code=303)
 
-    new_post = {
-        "id": len(posts) + 1,
-        "titulo": form.get("titulo"),
-        "resumo": form.get("resumo"),
-        "conteudo": form.get("conteudo"),
-        "autor": form.get("autor")
-    }
-
-    posts.append(new_post)
-
-    return RedirectResponse(url="/", status_code=303)
-
-
-@app.post("/delete/{id}")
-def deletar(id: int):
-    global posts
-
-    posts_filtrados = []
-
-    for post in posts:
-        if post["id"] != id:
-            posts_filtrados.append(post)
-
-    posts = posts_filtrados
-
-    return RedirectResponse("/", status_code=303)
-
-
-@app.get("/edit/{id}")
-async def edit_page(request: Request, id: int):
-    post_para_editar = next((post for post in posts if post["id"] == id), None)
-    
+@app.get("/editar", response_class=HTMLResponse)
+async def pagina_editar_lista(request: Request):
+    posts = consulta_post()
     return templates.TemplateResponse(
-        request=request, 
-        name="edit.html", 
-        context={"post": post_para_editar}
+        request=request,
+        name="editar.html",
+        context={"posts": posts}
     )
 
+@app.get("/editar/{id}", response_class=HTMLResponse)
+async def pagina_editar_post(request: Request, id: int):
+    post = consulta_post_por_id(id)
+    return templates.TemplateResponse(
+        request=request,
+        name="editar_post.html",
+        context={"post": post}
+    )
 
-@app.post("/update/{id}")
-async def atualizar(request: Request, id: int):
-    form = await request.form()
-    
-    for post in posts:
-        if post["id"] == id:
-            post["titulo"] = form.get("titulo")
-            post["resumo"] = form.get("resumo")
-            post["conteudo"] = form.get("conteudo")
-            post["autor"] = form.get("autor")
-            break
-            
-    return RedirectResponse(url="/", status_code=303)
-
+@app.post("/editar/{id}")
+async def editar(id: int, titulo: str = Form(...), informacoes: str = Form(...)):
+    editar_post(id, titulo, informacoes)
+    return RedirectResponse(url="/view", status_code=303)
 
 
-bd = """
-CREATE DATABASE forum_web;
+@app.get("/excluir", response_class=HTMLResponse)
+async def pagina_excluir(request: Request):
+    posts = consulta_post()
+    return templates.TemplateResponse(
+        request=request,
+        name="excluir.html",
+        context={"posts": posts}
+    )
 
-USE forum_web;
-
-CREATE TABLE posts (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    titulo VARCHAR(100) NOT NULL,
-    resumo VARCHAR(255),
-    conteudo TEXT,
-    autor VARCHAR(100)
-);
-
-INSERT INTO posts (titulo, resumo, conteudo, autor) 
-VALUES (
-    ('Meu Primeiro Post'), 
-    'Um resumo básico sobre o fórum', 
-    'Este é o conteúdo completo que ficará guardado no banco de dados.', 
-    'Carlos Silva'
-);
-"""
+@app.post("/excluir/{id}")
+async def excluir(id: int):
+    excluir_post(id)
+    return RedirectResponse(url="/excluir", status_code=303)
