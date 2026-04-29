@@ -208,4 +208,50 @@ Remove um post do banco de dados e atualiza a lista exibida.
 ---
 
 ### dao.py
+```python
+import mysql.connector
+
+def connection():
+    return mysql.connector.connect(
+        host='localhost',
+        user='root',
+        password='',
+        database='forum'
+    )
+```
+
+Responsável por estabelecer a conexão com o banco de dados **MySQL**.
+
+#### 🔹 Parâmetros da conexão:
+
+- **host**: endereço do servidor do banco (geralmente `localhost` em ambiente local)
+- **user**: usuário do banco de dados
+- **password**: senha do banco (vazia neste caso)
+- **database**: nome do banco utilizado (`forum`)
+
+---
+
+#### ⚠️ Importante
+
+Para que o projeto funcione corretamente, é necessário:
+
+1. Ter o **MySQL** instalado e em execução
+2. Criar o banco de dados com o nome:
+
+```sql
+CREATE DATABASE forum;
+```
+
+3. Criar a tabela utilizada pelos posts (exemplo básico):
+
+```sql
+CREATE TABLE posts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(255),
+    informacoes TEXT
+);
+```
+
+---
+
 ### model.py
