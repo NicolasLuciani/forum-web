@@ -14,22 +14,24 @@
 
 ### 📂 Estrutura
 
-├── static/
-│   ├── assets/
-│   │   └── logo_forum.png      
-│   ├── css/
-│   │   └── style.css           
-│   └── js/
-│       └── script.js           
-├── templates/                 
-│   ├── editar_post.html
-│   ├── editar.html
-│   ├── excluir.html
-│   ├── index.html
-│   ├── post.html
-│   └── view.html
-├── venv/                      
-├── app.py                     
-├── dao.py                      
-└── model.py            
+|- static
+|   - assets
+|         - logo_forum.png
+|    - css
+|         - style.css
+|    - js
+|         - script.js
+|           
+|- templates
+|    - editar_post.html
+|    - editar.html
+|    - excluir.html
+|    - index.html
+|    - post.html
+|    - view.html
+|      
+|- venv
+|- app.py
+|- dao.py
+|- model.py          
 ---
