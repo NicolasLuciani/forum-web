@@ -1,4 +1,4 @@
-# FORUM WEB
+# 💬 FORUM WEB
 
 ## Forum web com ligação ao banco de dados
 
@@ -362,3 +362,131 @@ def consulta_post_por_id(id):
 - Utiliza `fetchone()` para obter um único resultado
 
 ---
+## 🎨 Frontend (Templates HTML + Jinja2)
+
+O projeto utiliza **templates HTML com Jinja2**, integrados ao FastAPI, para renderizar páginas dinâmicas no navegador.
+
+Os arquivos estão organizados na pasta:
+
+```
+templates/
+```
+
+E os arquivos estáticos (CSS, imagens) em:
+
+```
+static/
+```
+
+---
+
+### 🔹 Estrutura base dos templates
+
+Todos os HTMLs seguem uma estrutura semelhante:
+
+- Importação de CSS via `/static`
+- Header com navegação entre as rotas
+- Conteúdo dinâmico dentro da tag `<main>`
+
+Exemplo:
+
+```html
+<link rel="stylesheet" href="/static/css/style.css">
+<img src="/static/assets/logo_forum.png">
+```
+
+Esses caminhos funcionam por conta da configuração feita no FastAPI:
+
+```python
+app.mount("/static", StaticFiles(directory="static"), name="static")
+```
+
+---
+
+### 🔹 Integração com Jinja2
+
+O Jinja2 permite inserir dados dinâmicos diretamente no HTML.
+
+Exemplo do `editar.html`:
+
+```html
+{% for post in posts %}
+    <div class="post-editar">
+        <h3>{{ post.titulo }}</h3>
+        <a href="/editar/{{ post.id }}">Editar</a>
+    </div>
+{% endfor %}
+```
+
+#### O que está acontecendo:
+
+- `{% for post in posts %}` → percorre a lista de posts enviada pela API
+- `{{ post.titulo }}` → exibe o título do post
+- `{{ post.id }}` → usado para criar rotas dinâmicas
+
+👉 Esses dados vêm do backend:
+
+```python
+return templates.TemplateResponse(
+    request=request,
+    name="editar.html",
+    context={"posts": posts}
+)
+```
+
+---
+
+### 🔹 Formulários e envio de dados
+
+Exemplo do `post.html`:
+
+```html
+<form action="/add" method="post">
+    <input type="text" name="titulo">
+    <input type="text" name="informacoes">
+    <button type="submit">Adicionar</button>
+</form>
+```
+
+#### Funcionamento:
+
+- O formulário envia os dados para a rota `/add`
+- O método `POST` é utilizado para envio de dados
+- Os nomes (`name="titulo"`, `name="informacoes"`) são usados no backend para capturar os valores
+
+No FastAPI:
+
+```python
+form = await request.form()
+titulo = form.get("titulo")
+informacoes = form.get("informacoes")
+```
+
+---
+
+### 🔹 Navegação entre páginas
+
+Os templates utilizam links diretos para as rotas da aplicação:
+
+```html
+<nav>
+    <a href="/">Home</a>
+    <a href="/view">Visualizar Posts</a>
+    <a href="/postar">Criar Posts</a>
+    <a href="/editar">Editar Posts</a>
+    <a href="/excluir">Excluir Posts</a>
+</nav>
+```
+
+Cada link corresponde a uma rota definida no `app.py`.
+
+---
+
+### 🔹 Separação de responsabilidades
+
+- **HTML (templates)** → responsável pela interface
+- **FastAPI (app.py)** → controla as rotas e envia os dados
+- **Jinja2** → faz a ligação entre backend e frontend
+
+---
+# 💬 Forum Web
