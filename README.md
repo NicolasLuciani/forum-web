@@ -255,3 +255,110 @@ CREATE TABLE posts (
 ---
 
 ### model.py
+```python
+from dao import connection
+```
+
+Importa a função responsável por criar a conexão com o banco de dados.
+
+---
+
+#### 🔹 Buscar todos os posts
+
+```python
+def consulta_post():
+    conn = connection()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute(
+        '''
+        SELECT * FROM post
+        '''
+    )
+    dados = cursor.fetchall()
+
+    conn.close()
+    return dados
+```
+
+- Realiza uma consulta para retornar todos os posts do banco
+- Utiliza `dictionary=True` para retornar os dados em formato de dicionário
+
+---
+
+#### 🔹 Adicionar um novo post
+
+```python
+def add_post(titulo, informacoes):
+    conn = connection()
+    cursor = conn.cursor()
+
+    query = '''
+            INSERT INTO post (titulo, informacoes) VALUES 
+            (%s, %s)
+            '''
+    cursor.execute(query, (titulo, informacoes))
+    conn.commit()
+    conn.close()
+```
+
+- Insere um novo registro na tabela `post`
+- Utiliza parâmetros (`%s`) para evitar SQL Injection
+- `commit()` garante que a alteração seja salva no banco
+
+---
+
+#### 🔹 Editar um post
+
+```python
+def editar_post(id, titulo, informacoes):
+    conn = connection()
+    cursor = conn.cursor()
+
+    query = '''
+            UPDATE post SET titulo = %s, informacoes = %s WHERE id = %s
+            '''
+    cursor.execute(query, (titulo, informacoes, id))
+    conn.commit()
+    conn.close()
+```
+
+- Atualiza os dados de um post existente com base no `id`
+
+---
+
+#### 🔹 Excluir um post
+
+```python
+def excluir_post(id):
+    conn = connection()
+    cursor = conn.cursor()
+
+    query = '''DELETE FROM post WHERE id = %s'''
+    cursor.execute(query, (id,))
+    conn.commit()
+    conn.close()
+```
+
+- Remove um post do banco de dados a partir do `id`
+
+---
+
+#### 🔹 Buscar post por ID
+
+```python
+def consulta_post_por_id(id):
+    conn = connection()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute('''SELECT * FROM post WHERE id = %s''', (id,))
+    dado = cursor.fetchone()
+
+    conn.close()
+    return dado
+```
+
+- Retorna apenas um post específico com base no `id`
+- Utiliza `fetchone()` para obter um único resultado
+
+---
