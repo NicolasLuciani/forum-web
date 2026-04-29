@@ -16,11 +16,11 @@
 
 - static
    - assets
-         - logo_forum.png
+        - logo_forum.png
     - css
-         - style.css
+        - style.css
     - js
-         - script.js
+        - script.js
            
 - templates
     - editar_post.html
